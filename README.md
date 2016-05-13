@@ -1,1 +1,1 @@
-# react-matrix
+# react-matrix-viz
