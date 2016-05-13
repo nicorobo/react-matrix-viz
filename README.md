@@ -6,4 +6,5 @@
 react-matrix-viz is a drop in React component you can use to add interactive matrix visuals to your website or app.
 
 Install using `npm install react-matrix-vis --save`
+
 *(Docs coming soon!)* 
