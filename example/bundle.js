@@ -20501,7 +20501,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		Column.propTypes = {
-			cells: _react.PropTypes.array };
+			cells: _react.PropTypes.array, // An array of Cell components, representing a column
+			className: PropType.string };
 
 	/***/ },
 	/* 6 */
@@ -20564,9 +20565,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		Cell.propTypes = {
 			data: _react.PropTypes.object, // This cell's data
 			style: _react.PropTypes.object, // This cell's style object
-			onClick: _react.PropTypes.func };
+			onClick: _react.PropTypes.func, // This cell's click handler
+			className: PropType.string };
 
-		// This cell's click handler
+		// Cell's class
 		exports.default = (0, _radium2.default)(Cell); // Wraps Cell in Radium, which extends React's inline CSS capabilities
 
 	/***/ },
