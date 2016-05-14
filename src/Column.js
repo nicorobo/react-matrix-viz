@@ -4,7 +4,7 @@ import { columnStyle } from './Styles.js';
 export default class Column extends Component {
 	render() {
 		return (
-			<div className="column" style={columnStyle}>
+			<div className={this.props.className} style={columnStyle}>
 				{this.props.cells}
 			</div>
 		);

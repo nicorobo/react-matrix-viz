@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { cellStyle } from './Styles.js';
 import Radium from 'radium';
 
 class Cell extends Component {
 	render() {
-		var {data, style, onClick} = this.props;
+		var {data, style, onClick, className} = this.props;
 		return (
 			<div
-				className="cell" 
+				className={className}
 				style={style}
 				onClick={() => onClick(data)}>
 			</div>

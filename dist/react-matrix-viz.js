@@ -129,12 +129,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				var setStyle = _props.setStyle;
 				var setHoverStyle = _props.setHoverStyle;
 				var onClick = _props.onClick;
+				var cellClass = _props.cellClass;
 
 				return data.map(function (col, i) {
 					return col.map(function (cell, j) {
 						var curData = cellData(cell, i, j);
 						return _react2.default.createElement(_Cell2.default, {
 							key: 'col' + i + 'row' + j,
+							className: cellClass,
 							data: curData // Using i and j to denote col and row respectively
 							, style: (0, _lodash.extend)({}, _Styles.cellStyle, setStyle(curData), { ':hover': setHoverStyle(curData) }),
 							onClick: onClick });
@@ -144,12 +146,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, {
 			key: 'render',
 			value: function render() {
+				var _props2 = this.props;
+				var columnClass = _props2.columnClass;
+				var matrixClass = _props2.matrixClass;
+
 				var cells = this.generateCells();
 				return _react2.default.createElement(
 					'div',
-					{ className: 'matrix', style: _Styles.matrixStyle },
+					{ className: matrixClass, style: _Styles.matrixStyle },
 					cells.map(function (col, i) {
-						return _react2.default.createElement(_Column2.default, { key: 'col' + i, cells: col });
+						return _react2.default.createElement(_Column2.default, { key: 'col' + i, className: columnClass, cells: col });
 					})
 				);
 			}
@@ -166,9 +172,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		cellData: _react.PropTypes.func, // A function that determines what the cell's value will be
 		setStyle: _react.PropTypes.func, // A function that determines the cell's style
 		setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
-		onClick: _react.PropTypes.func };
+		onClick: _react.PropTypes.func, // An event handler, triggered when cell is clicked
+		cellClass: _react.PropTypes.string,
+		columnClass: _react.PropTypes.string,
+		matrixClass: _react.PropTypes.string
+	};
 
-	// An event handler, triggered when cell is clicked
 	Matrix.defaultProps = {
 		cellData: function cellData(cell, col, row) {
 			return cell;
@@ -181,7 +190,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, // Return the default cell style
 		onClick: function onClick(data) {
 			return true;
-		} };
+		}, // Log 'You clicked me!' on being clicked
+		cellClass: 'rm-cell', // Default cell class name to 'rm-cell'
+		columnClass: 'rm-column', // Default column class name to 'rm-column'
+		matrixClass: 'rm-matrix' };
 
 /***/ },
 /* 2 */
@@ -262,7 +274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ className: 'column', style: _Styles.columnStyle },
+					{ className: this.props.className, style: _Styles.columnStyle },
 					this.props.cells
 				);
 			}
@@ -293,8 +305,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Styles = __webpack_require__(4);
-
 	var _radium = __webpack_require__(7);
 
 	var _radium2 = _interopRequireDefault(_radium);
@@ -323,9 +333,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				var data = _props.data;
 				var style = _props.style;
 				var _onClick = _props.onClick;
+				var className = _props.className;
 
 				return _react2.default.createElement('div', {
-					className: 'cell',
+					className: className,
 					style: style,
 					onClick: function onClick() {
 						return _onClick(data);
