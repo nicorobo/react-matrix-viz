@@ -1,6 +1,6 @@
 {
   "name": "react-matrix-viz",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A react component for creating quick matrix/grid visualizations.",
   "main": "./lib",
   "scripts": {
