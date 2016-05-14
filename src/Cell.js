@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { cellStyle } from './Styles.js';
-import _ from 'lodash';
+import { extend } from 'lodash';
 import Radium from 'radium';
 
 class Cell extends Component {
@@ -9,7 +9,7 @@ class Cell extends Component {
 		return (
 			<div
 				className="cell" 
-				style={_.extend(cellStyle, setStyle(data), {':hover': setHoverStyle(data)})}
+				style={extend({}, cellStyle, setStyle(data), {':hover': setHoverStyle(data)})}
 				onClick={() => onClick(data)}>
 			</div>
 		);
