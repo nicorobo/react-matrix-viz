@@ -10,10 +10,14 @@ function getStyle(data) {
 	}
 }
 
+function logOver(data) {
+	console.log('Mousing over a cell!', data);
+}
+
 export default class App extends Component {
 	render() {
 		return (
-			<Matrix data={data} setStyle={getStyle}/>
+			<Matrix data={data} setStyle={getStyle} onMouseOver={logOver} />
 		);
 	}
 }

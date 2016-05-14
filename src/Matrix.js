@@ -15,7 +15,7 @@ export default class Matrix extends Component {
 	}
 
 	generateCells() {
-		var { data, cellData, cellClass, onClick} = this.props;
+		var { data, cellData, cellClass, onClick, onMouseOver, onMouseOut} = this.props;
 		return data.map((col, i) => col.map((cell, j) => {
 			var curData = cellData(cell, i, j) // Using i and j to denote col and row respectively
 			var style = this.getCellStyle(curData);
@@ -24,7 +24,9 @@ export default class Matrix extends Component {
 				className={cellClass}
 				data={curData}
 				style={style}
-				onClick={onClick} />);
+				onClick={onClick}
+				onMouseOver={onMouseOver}
+				onMouseOut={onMouseOut} />);
 		}));
 	}
 
@@ -45,8 +47,8 @@ Matrix.propTypes = {
 	setStyle: PropTypes.func, // A function that determines the cell's style
 	setHoverStyle: PropTypes.func, // A function that determines the cell's style
 	onClick: PropTypes.func, // An event handler, triggered when cell is clicked
-	onMouseOver: PropTypes.func, // An event handler, triggered when cell is moused over
-	onMouseLeave: PropTypes.func, // An event handler, triggered when cell is mouse "leaved"
+	onMouseOver: PropTypes.func, // An event handler, triggered when mouse enters cell
+	onMouseOut: PropTypes.func, // An event handler, triggered when mouse exits cell
 	cellClass: PropTypes.string,
 	columnClass: PropTypes.string,
 	matrixClass: PropTypes.string,

@@ -142,6 +142,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				var cellData = _props2.cellData;
 				var cellClass = _props2.cellClass;
 				var onClick = _props2.onClick;
+				var onMouseOver = _props2.onMouseOver;
+				var onMouseOut = _props2.onMouseOut;
 
 				return data.map(function (col, i) {
 					return col.map(function (cell, j) {
@@ -152,7 +154,9 @@ return /******/ (function(modules) { // webpackBootstrap
 							className: cellClass,
 							data: curData,
 							style: style,
-							onClick: onClick });
+							onClick: onClick,
+							onMouseOver: onMouseOver,
+							onMouseOut: onMouseOut });
 					});
 				});
 			}
@@ -186,8 +190,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		setStyle: _react.PropTypes.func, // A function that determines the cell's style
 		setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
 		onClick: _react.PropTypes.func, // An event handler, triggered when cell is clicked
-		onMouseOver: _react.PropTypes.func, // An event handler, triggered when cell is moused over
-		onMouseLeave: _react.PropTypes.func, // An event handler, triggered when cell is mouse "leaved"
+		onMouseOver: _react.PropTypes.func, // An event handler, triggered when mouse enters cell
+		onMouseOut: _react.PropTypes.func, // An event handler, triggered when mouse exits cell
 		cellClass: _react.PropTypes.string,
 		columnClass: _react.PropTypes.string,
 		matrixClass: _react.PropTypes.string
@@ -334,20 +338,49 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		_createClass(Cell, [{
+			key: 'getClickHandler',
+			value: function getClickHandler(data) {
+				var onClick = this.props.onClick;
+
+				if (!onClick) return false;
+				return function () {
+					return onClick(data);
+				};
+			}
+		}, {
+			key: 'getMouseOverHandler',
+			value: function getMouseOverHandler(data) {
+				var onMouseOver = this.props.onMouseOver;
+
+				if (!onMouseOver) return false;
+				return function () {
+					return onMouseOver(data);
+				};
+			}
+		}, {
+			key: 'getMouseOutHandler',
+			value: function getMouseOutHandler(data) {
+				var onMouseOut = this.props.onMouseOut;
+
+				if (!onMouseOut) return false;
+				return function () {
+					return onMouseOut(data);
+				};
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _props = this.props;
 				var data = _props.data;
 				var style = _props.style;
-				var _onClick = _props.onClick;
 				var className = _props.className;
 
 				return _react2.default.createElement('div', {
 					className: className,
 					style: style,
-					onClick: function onClick() {
-						return _onClick(data);
-					} });
+					onClick: this.getClickHandler(data),
+					onMouseOver: this.getMouseOverHandler(data),
+					onMouseOut: this.getMouseOutHandler(data) });
 			}
 		}]);
 
@@ -358,6 +391,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		data: _react.PropTypes.object, // This cell's data
 		style: _react.PropTypes.object, // This cell's style object
 		onClick: _react.PropTypes.func, // This cell's click handler
+		onMouseOver: _react.PropTypes.func, // This cell's mouseover handler
+		onMouseOut: _react.PropTypes.func, // This cell's mouseout handler
 		className: _react.PropTypes.string };
 
 	// Cell's class
