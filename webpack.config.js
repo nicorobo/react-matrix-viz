@@ -11,7 +11,6 @@ var PATHS = {
 var config = { // It's SO SIMPLE :D!
 	entry: {
 		'./dist/react-matrix-viz': PATHS.src + '/index', // Outputs to ./lib/matrix.js
-		'./example/bundle': PATHS.example + '/src/App',
 	},
 	output: {
 		path: PATHS.root,
@@ -36,7 +35,6 @@ var config = { // It's SO SIMPLE :D!
 
 // If using 'npm run dist', minify
 if (TARGET === 'dist') {
-	delete config.entry['./example/bundle'];
 	config.output.filename = '[name].min.js';
 	config.plugins = [
 		new webpack.optimize.UglifyJsPlugin({
@@ -46,5 +44,14 @@ if (TARGET === 'dist') {
 		})
 	];
 }
+
+// If using 'npm run dist', minify
+if (TARGET === 'dev:example') {
+	delete config.entry['./dist/react-matrix-viz'];
+	config.entry['./example/bundle'] = PATHS.example + '/src/App';
+	config.output.filename = '[name].js';
+	delete config.externals;
+}
+
 
 module.exports = config;

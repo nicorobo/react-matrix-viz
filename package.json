@@ -2,9 +2,10 @@
   "name": "react-matrix-viz",
   "version": "0.0.1",
   "description": "A react component for creating quick matrix/grid visualizations.",
-  "main": "./lib/lib.js",
+  "main": "./lib",
   "scripts": {
     "dev": "webpack --watch",
+    "dev:example": "webpack --watch",
     "dist": "webpack",
     "example": "live-server example/",
     "lint": "eslint src/ || true",
