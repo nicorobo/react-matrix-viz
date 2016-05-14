@@ -10,7 +10,8 @@
     "example": "live-server example/",
     "lint": "eslint src/ || true",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lib": "babel ./src --out-dir lib"
+    "lib": "babel ./src --out-dir lib",
+    "prepublish": "npm run dist && npm run lib"
   },
   "author": "Nick Roberts",
   "license": "ISC",
