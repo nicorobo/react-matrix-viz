@@ -1,15 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { cellStyle } from './Styles.js';
-import { extend } from 'lodash';
 import Radium from 'radium';
 
 class Cell extends Component {
 	render() {
-		var {data, setStyle, setHoverStyle, onClick} = this.props;
+		var {data, style, onClick} = this.props;
 		return (
 			<div
 				className="cell" 
-				style={extend({}, cellStyle, setStyle(data), {':hover': setHoverStyle(data)})}
+				style={style}
 				onClick={() => onClick(data)}>
 			</div>
 		);
@@ -18,8 +17,7 @@ class Cell extends Component {
 
 Cell.propTypes = {
 	data: PropTypes.object, // This cell's data
-	setStyle: PropTypes.func, // This cell's style object
-	setHoverStyle: PropTypes.func, // This cell's hover style object
+	style: PropTypes.object, // This cell's style object
 	onClick: PropTypes.func, // This cell's click handler
 };
 

@@ -20221,7 +20221,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			var a = typeof exports === 'object' ? factory(require("react"), require("lodash")) : factory(root["react"], root["_"]);
 			for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 		}
-	})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_6__) {
+	})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
 	return /******/ (function(modules) { // webpackBootstrap
 	/******/ 	// The module cache
 	/******/ 	var installedModules = {};
@@ -20279,7 +20279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _Matrix2 = _interopRequireDefault(_Matrix);
 
-		var _Cell = __webpack_require__(5);
+		var _Cell = __webpack_require__(6);
 
 		var _Cell2 = _interopRequireDefault(_Cell);
 
@@ -20305,13 +20305,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _react2 = _interopRequireDefault(_react);
 
-		var _Styles = __webpack_require__(3);
+		var _lodash = __webpack_require__(3);
 
-		var _Column = __webpack_require__(4);
+		var _Styles = __webpack_require__(4);
+
+		var _Column = __webpack_require__(5);
 
 		var _Column2 = _interopRequireDefault(_Column);
 
-		var _Cell = __webpack_require__(5);
+		var _Cell = __webpack_require__(6);
 
 		var _Cell2 = _interopRequireDefault(_Cell);
 
@@ -20322,8 +20324,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 		function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-		// color('#F36B6B').mix(color('white'), data.val/10).hexString()
 
 		var Matrix = function (_Component) {
 			_inherits(Matrix, _Component);
@@ -20346,11 +20346,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 					return data.map(function (col, i) {
 						return col.map(function (cell, j) {
+							var curData = cellData(cell, i, j);
 							return _react2.default.createElement(_Cell2.default, {
 								key: 'col' + i + 'row' + j,
-								data: cellData(cell, i, j) // Using i and j to denote col and row respectively
-								, setStyle: setStyle,
-								setHoverStyle: setHoverStyle,
+								data: curData // Using i and j to denote col and row respectively
+								, style: (0, _lodash.extend)({}, _Styles.cellStyle, setStyle(curData), { ':hover': setHoverStyle(curData) }),
 								onClick: onClick });
 						});
 					});
@@ -20407,6 +20407,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 3 */
 	/***/ function(module, exports) {
 
+		module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+	/***/ },
+	/* 4 */
+	/***/ function(module, exports) {
+
 		'use strict';
 
 		Object.defineProperty(exports, "__esModule", {
@@ -20431,7 +20437,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 	/***/ },
-	/* 4 */
+	/* 5 */
 	/***/ function(module, exports, __webpack_require__) {
 
 		'use strict';
@@ -20446,7 +20452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _react2 = _interopRequireDefault(_react);
 
-		var _Styles = __webpack_require__(3);
+		var _Styles = __webpack_require__(4);
 
 		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20486,7 +20492,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			cells: _react.PropTypes.array };
 
 	/***/ },
-	/* 5 */
+	/* 6 */
 	/***/ function(module, exports, __webpack_require__) {
 
 		'use strict';
@@ -20501,9 +20507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _react2 = _interopRequireDefault(_react);
 
-		var _Styles = __webpack_require__(3);
-
-		var _lodash = __webpack_require__(6);
+		var _Styles = __webpack_require__(4);
 
 		var _radium = __webpack_require__(7);
 
@@ -20531,13 +20535,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				value: function render() {
 					var _props = this.props;
 					var data = _props.data;
-					var setStyle = _props.setStyle;
-					var setHoverStyle = _props.setHoverStyle;
+					var style = _props.style;
 					var _onClick = _props.onClick;
 
 					return _react2.default.createElement('div', {
 						className: 'cell',
-						style: (0, _lodash.extend)({}, _Styles.cellStyle, setStyle(data), { ':hover': setHoverStyle(data) }),
+						style: style,
 						onClick: function onClick() {
 							return _onClick(data);
 						} });
@@ -20549,18 +20552,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		Cell.propTypes = {
 			data: _react.PropTypes.object, // This cell's data
-			setStyle: _react.PropTypes.func, // This cell's style object
-			setHoverStyle: _react.PropTypes.func, // This cell's hover style object
+			style: _react.PropTypes.object, // This cell's style object
 			onClick: _react.PropTypes.func };
 
 		// This cell's click handler
 		exports.default = (0, _radium2.default)(Cell); // Wraps Cell in Radium, which extends React's inline CSS capabilities
-
-	/***/ },
-	/* 6 */
-	/***/ function(module, exports) {
-
-		module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
 
 	/***/ },
 	/* 7 */

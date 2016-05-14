@@ -1,19 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import { matrixStyle } from './Styles.js';
+import { extend } from 'lodash';
+import { matrixStyle, cellStyle } from './Styles.js';
 import Column from './Column.js';
 import Cell from './Cell.js';
 
-// color('#F36B6B').mix(color('white'), data.val/10).hexString()
 export default class Matrix extends Component {
 
 	generateCells() {
 		var { data, cellData, setStyle, setHoverStyle, onClick } = this.props;
 		return data.map((col, i) => col.map((cell, j) => {
+			var curData = cellData(cell, i, j)
 			return (<Cell 
 				key={`col${i}row${j}`}
-				data={cellData(cell, i, j)} // Using i and j to denote col and row respectively
-				setStyle={setStyle}
-				setHoverStyle={setHoverStyle}
+				data={curData} // Using i and j to denote col and row respectively
+				style={extend({}, cellStyle, setStyle(curData), {':hover': setHoverStyle(curData)})}
 				onClick={onClick} />);
 		}));
 	}
