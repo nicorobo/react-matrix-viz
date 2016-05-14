@@ -72,10 +72,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
 
-	var _RandomData = __webpack_require__(171);
-
-	var _RandomData2 = _interopRequireDefault(_RandomData);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84,17 +80,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	// Returns a 2d array of object literals, with property val (random int between 0-9 inclusive)
-
 	function getStyle(data) {
 		return {
-			backgroundColor: 'rgba(200, 150, 200, ' + data.val / 10 + ')',
-			border: data.val > 0 ? 'none' : '1px solid #ddd'
+			backgroundColor: 'rgba(200, 150, 200, ' + data.val / 100 + ')',
+			border: data.val > 10 ? 'none' : '1px solid #ddd'
 		};
-	}
-
-	function logOver(data) {
-		console.log('Mousing over a cell!', data);
 	}
 
 	var App = function (_Component) {
@@ -109,7 +99,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		_createClass(App, [{
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(_reactMatrixViz2.default, { data: _RandomData2.default, setStyle: getStyle, onMouseOver: logOver });
+				return _react2.default.createElement(_reactMatrixViz2.default, { random: [10, 10], setStyle: getStyle });
 			}
 		}]);
 
@@ -20313,6 +20303,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _Styles = __webpack_require__(4);
 
+		var _Util = __webpack_require__(68);
+
 		var _Column = __webpack_require__(5);
 
 		var _Column2 = _interopRequireDefault(_Column);
@@ -20352,11 +20344,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				}
 			}, {
 				key: 'generateCells',
-				value: function generateCells() {
+				value: function generateCells(data) {
 					var _this2 = this;
 
 					var _props2 = this.props;
-					var data = _props2.data;
 					var cellData = _props2.cellData;
 					var cellClass = _props2.cellClass;
 					var onClick = _props2.onClick;
@@ -20384,8 +20375,11 @@ return /******/ (function(modules) { // webpackBootstrap
 					var _props3 = this.props;
 					var columnClass = _props3.columnClass;
 					var matrixClass = _props3.matrixClass;
+					var data = _props3.data;
+					var random = _props3.random;
+					// If data exists, use it. Otherwise, use our random prop.
 
-					var cells = this.generateCells();
+					var cells = this.generateCells(data || (0, _Util.randomData)(random[0], random[1]));
 					return _react2.default.createElement(
 						'div',
 						{ className: matrixClass, style: _Styles.matrixStyle },
@@ -20403,13 +20397,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 		Matrix.propTypes = {
-			data: _react.PropTypes.array.isRequired, // A 2d array of values or objects
+			data: _react.PropTypes.array, // A 2d array of values or objects
 			cellData: _react.PropTypes.func, // A function that determines what the cell's value will be
 			setStyle: _react.PropTypes.func, // A function that determines the cell's style
 			setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
 			onClick: _react.PropTypes.func, // An event handler, triggered when cell is clicked
 			onMouseOver: _react.PropTypes.func, // An event handler, triggered when mouse enters cell
-			onMouseOut: _react.PropTypes.func, // An event handler, triggered when mouse exits cell
+			onMouseOut: _react.PropTypes.func, // An event handler, triggered when mouse exits cell,
+			random: _react.PropTypes.array, // [10, 5] would result in a 10 column, 5 row grid with random values between 1-100
 			cellClass: _react.PropTypes.string,
 			columnClass: _react.PropTypes.string,
 			matrixClass: _react.PropTypes.string
@@ -24554,6 +24549,28 @@ return /******/ (function(modules) { // webpackBootstrap
 		  };
 		}
 		module.exports = exports['default'];
+
+	/***/ },
+	/* 68 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+			value: true
+		});
+		exports.randomData = randomData;
+		function randomData(col, row) {
+			var data = [];
+			for (var i = 0; i < col; i++) {
+				var column = [];
+				for (var j = 0; j < row; j++) {
+					column.push({ val: Math.floor(Math.random() * 100) });
+				}
+				data.push(column);
+			}
+			return data;
+		}
 
 	/***/ }
 	/******/ ])
@@ -36933,30 +36950,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		return module;
 	}
 
-
-/***/ },
-/* 171 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.default = randomData(10, 10);
-
-
-	function randomData(col, row) {
-		var data = [];
-		for (var i = 0; i < col; i++) {
-			var column = [];
-			for (var j = 0; j < row; j++) {
-				column.push({ val: Math.floor(Math.random() * 10) });
-			}
-			data.push(column);
-		}
-		return data;
-	}
 
 /***/ }
 /******/ ])
