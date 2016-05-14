@@ -18,7 +18,7 @@ Cell.propTypes = {
 	data: PropTypes.object, // This cell's data
 	style: PropTypes.object, // This cell's style object
 	onClick: PropTypes.func, // This cell's click handler
-	className: PropType.string, // Cell's class
+	className: PropTypes.string, // Cell's class
 };
 
 export default Radium(Cell); // Wraps Cell in Radium, which extends React's inline CSS capabilities

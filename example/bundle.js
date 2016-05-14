@@ -20335,24 +20335,37 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			_createClass(Matrix, [{
-				key: 'generateCells',
-				value: function generateCells() {
+				key: 'getCellStyle',
+				value: function getCellStyle(data) {
 					var _props = this.props;
-					var data = _props.data;
-					var cellData = _props.cellData;
 					var setStyle = _props.setStyle;
 					var setHoverStyle = _props.setHoverStyle;
-					var onClick = _props.onClick;
-					var cellClass = _props.cellClass;
+
+					var style = (0, _lodash.extend)({}, _Styles.cellStyle);
+					if (setStyle) style = (0, _lodash.extend)(style, setStyle(data));
+					if (setHoverStyle) style = (0, _lodash.extend)(style, setHoverStyle(data));
+					return style;
+				}
+			}, {
+				key: 'generateCells',
+				value: function generateCells() {
+					var _this2 = this;
+
+					var _props2 = this.props;
+					var data = _props2.data;
+					var cellData = _props2.cellData;
+					var cellClass = _props2.cellClass;
+					var onClick = _props2.onClick;
 
 					return data.map(function (col, i) {
 						return col.map(function (cell, j) {
-							var curData = cellData(cell, i, j);
+							var curData = cellData(cell, i, j); // Using i and j to denote col and row respectively
+							var style = _this2.getCellStyle(curData);
 							return _react2.default.createElement(_Cell2.default, {
 								key: 'col' + i + 'row' + j,
 								className: cellClass,
-								data: curData // Using i and j to denote col and row respectively
-								, style: (0, _lodash.extend)({}, _Styles.cellStyle, setStyle(curData), { ':hover': setHoverStyle(curData) }),
+								data: curData,
+								style: style,
 								onClick: onClick });
 						});
 					});
@@ -20360,9 +20373,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			}, {
 				key: 'render',
 				value: function render() {
-					var _props2 = this.props;
-					var columnClass = _props2.columnClass;
-					var matrixClass = _props2.matrixClass;
+					var _props3 = this.props;
+					var columnClass = _props3.columnClass;
+					var matrixClass = _props3.matrixClass;
 
 					var cells = this.generateCells();
 					return _react2.default.createElement(
@@ -20387,6 +20400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			setStyle: _react.PropTypes.func, // A function that determines the cell's style
 			setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
 			onClick: _react.PropTypes.func, // An event handler, triggered when cell is clicked
+			onMouseOver: _react.PropTypes.func, // An event handler, triggered when cell is moused over
+			onMouseLeave: _react.PropTypes.func, // An event handler, triggered when cell is mouse "leaved"
 			cellClass: _react.PropTypes.string,
 			columnClass: _react.PropTypes.string,
 			matrixClass: _react.PropTypes.string
@@ -20396,15 +20411,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			cellData: function cellData(cell, col, row) {
 				return cell;
 			}, // Returns the value at data[col][row]
-			setStyle: function setStyle(data) {
-				return {};
-			}, // Return the default cell style
-			setHoverStyle: function setHoverStyle(data) {
-				return {};
-			}, // Return the default cell style
-			onClick: function onClick(data) {
-				return true;
-			}, // Log 'You clicked me!' on being clicked
 			cellClass: 'rm-cell', // Default cell class name to 'rm-cell'
 			columnClass: 'rm-column', // Default column class name to 'rm-column'
 			matrixClass: 'rm-matrix' };
@@ -20502,7 +20508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		Column.propTypes = {
 			cells: _react.PropTypes.array, // An array of Cell components, representing a column
-			className: PropType.string };
+			className: _react.PropTypes.string };
 
 	/***/ },
 	/* 6 */
@@ -20566,7 +20572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			data: _react.PropTypes.object, // This cell's data
 			style: _react.PropTypes.object, // This cell's style object
 			onClick: _react.PropTypes.func, // This cell's click handler
-			className: PropType.string };
+			className: _react.PropTypes.string };
 
 		// Cell's class
 		exports.default = (0, _radium2.default)(Cell); // Wraps Cell in Radium, which extends React's inline CSS capabilities

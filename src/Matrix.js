@@ -5,16 +5,25 @@ import Column from './Column.js';
 import Cell from './Cell.js';
 
 export default class Matrix extends Component {
+	
+	getCellStyle(data) {
+		var { setStyle, setHoverStyle } = this.props;
+		var style = extend({}, cellStyle);
+		if(setStyle) style = extend(style, setStyle(data));
+		if(setHoverStyle) style = extend(style, setHoverStyle(data));
+		return style;
+	}
 
 	generateCells() {
-		var { data, cellData, setStyle, setHoverStyle, onClick, cellClass } = this.props;
+		var { data, cellData, cellClass, onClick} = this.props;
 		return data.map((col, i) => col.map((cell, j) => {
-			var curData = cellData(cell, i, j)
+			var curData = cellData(cell, i, j) // Using i and j to denote col and row respectively
+			var style = this.getCellStyle(curData);
 			return (<Cell 
-				key={`col${i}row${j}`}
+				key={`col${i}row${j}`} 
 				className={cellClass}
-				data={curData} // Using i and j to denote col and row respectively
-				style={extend({}, cellStyle, setStyle(curData), {':hover': setHoverStyle(curData)})}
+				data={curData}
+				style={style}
 				onClick={onClick} />);
 		}));
 	}
@@ -36,6 +45,8 @@ Matrix.propTypes = {
 	setStyle: PropTypes.func, // A function that determines the cell's style
 	setHoverStyle: PropTypes.func, // A function that determines the cell's style
 	onClick: PropTypes.func, // An event handler, triggered when cell is clicked
+	onMouseOver: PropTypes.func, // An event handler, triggered when cell is moused over
+	onMouseLeave: PropTypes.func, // An event handler, triggered when cell is mouse "leaved"
 	cellClass: PropTypes.string,
 	columnClass: PropTypes.string,
 	matrixClass: PropTypes.string,
@@ -43,9 +54,6 @@ Matrix.propTypes = {
 
 Matrix.defaultProps = {
 	cellData: (cell, col, row) => cell, // Returns the value at data[col][row]
-	setStyle: (data) => ({}), // Return the default cell style
-	setHoverStyle: (data) => ({}), // Return the default cell style
-	onClick: (data) => true, // Log 'You clicked me!' on being clicked
 	cellClass: 'rm-cell', // Default cell class name to 'rm-cell'
 	columnClass: 'rm-column', // Default column class name to 'rm-column'
 	matrixClass: 'rm-matrix', // Default matrix class name to 'rm-matrix'

@@ -13,6 +13,6 @@ export default class Column extends Component {
 
 Column.propTypes = {
 	cells: PropTypes.array, // An array of Cell components, representing a column
-	className: PropType.string, // Column's class
+	className: PropTypes.string, // Column's class
 };
 
