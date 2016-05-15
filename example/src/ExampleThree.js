@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Matrix from '../../dist/react-matrix-viz.js';
+import { Matrix, Util } from '../../dist/react-matrix-viz.js';
+var data = Util.randomData(10, 10);
+var cells = null;
 
 function setData(data, col, row) {
 	return {
@@ -9,16 +11,18 @@ function setData(data, col, row) {
 	}
 }
 
-export default class ExampleOne extends Component {
+export default class ExampleThree extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {row: null, col: null}
 	}
 
 	setStyle(data) {
+		console.log(data);
 		var { row, col } = this.state;
 		return {
-			border: data.row === row || data.col === col ? '1px solid #666' : 'none'
+			border: data.row === row || data.col === col ? '1px solid #ccc' : 'none',
+			':hover': {}
 		}
 	}
 
@@ -30,15 +34,21 @@ export default class ExampleOne extends Component {
 		this.setState({row: null, col: null})
 	}
 
+	getConfig() {
+		return {
+			setData,
+			onMouseOver: this.onMouseOver.bind(this),
+			onMouseOut: this.onMouseOut.bind(this),
+			setStyle: this.setStyle.bind(this),
+		}
+	}
+
 	render() {
+		var config = this.getConfig();
+		if (!cells) cells = Util.generateCells(data, config);
 		return (
 			<div className="example example-one">
-				<Matrix 
-					random={[10, 10]}
-					setData={setData}
-					onMouseOver={this.onMouseOver.bind(this)}
-					onMouseOut={this.onMouseOut.bind(this)}
-					setStyle={this.setStyle.bind(this)} />
+				<Matrix cells={cells} {...config} />
 			</div>
 		);
 	}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Matrix from '../../dist/react-matrix-viz.js';
+import { Matrix, Util } from '../../dist/react-matrix-viz.js';
 
 function setData(data, col, row) {
 	return {
@@ -22,12 +22,22 @@ function checkFrontier(col, row, center, steps) {
 export default class ExampleOne extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {center: [], step: 1, interval: null}
+		this.state = {center: [], step: 1, interval: null }
 	}
 
 	setHoverStyle(data) {
 		return {
 			cursor: 'pointer'
+		}
+	}
+
+	getConfig() {
+		return {
+			setData,
+			random: [10, 10],
+			onClick: this.onClick.bind(this),
+			setHoverStyle: this.setHoverStyle.bind(this),
+			setStyle: this.setStyle.bind(this),
 		}
 	}
 
@@ -46,19 +56,16 @@ export default class ExampleOne extends Component {
 		var interval = window.setInterval(()=>{
 			this.setState({step: this.state.step + 1})
 			if(this.state.step > 10) window.clearInterval(interval)
-		}, 300)
+		}, 200)
 		this.setState({ interval })
 	}
 
 	render() {
+
+		var config = this.getConfig()
 		return (
 			<div className="example example-one">
-				<Matrix 
-					random={[10, 10]}
-					setData={setData}
-					onClick={this.onClick.bind(this)}
-					setHoverStyle={this.setHoverStyle.bind(this)}
-					setStyle={this.setStyle.bind(this)} />
+				<Matrix {...config} />
 			</div>
 		);
 	}

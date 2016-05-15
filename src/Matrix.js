@@ -1,40 +1,40 @@
 import React, { Component, PropTypes } from 'react';
 import { extend } from 'lodash';
 import { matrixStyle, cellStyle } from './Styles.js';
-import { randomData } from './Util.js';
+import { randomData, generateCells } from './Util.js';
 import Column from './Column.js';
 import Cell from './Cell.js';
 
 export default class Matrix extends Component {
 	
-	getCellStyle(data) {
-		var { setStyle, setHoverStyle } = this.props;
-		var style = extend({}, cellStyle);
-		if(setStyle) style = extend(style, setStyle(data));
-		if(setHoverStyle) style = extend(style, {':hover': setHoverStyle(data)});
-		return style;
-	}
+	// getCellStyle(data) {
+	// 	var { setStyle, setHoverStyle } = this.props;
+	// 	var style = extend({}, cellStyle);
+	// 	if(setStyle) style = extend(style, setStyle(data));
+	// 	if(setHoverStyle) style = extend(style, {':hover': setHoverStyle(data)});
+	// 	return style;
+	// }
 
-	generateCells(data) {
-		var { setData, cellClass, onClick, onMouseOver, onMouseOut} = this.props;
-		return data.map((col, i) => col.map((cell, j) => {
-			var curData = setData(cell, i, j) // Using i and j to denote col and row respectively
-			var style = this.getCellStyle(curData);
-			return (<Cell 
-				key={`col${i}row${j}`} 
-				className={cellClass}
-				data={curData}
-				style={style}
-				onClick={onClick}
-				onMouseOver={onMouseOver}
-				onMouseOut={onMouseOut} />);
-		}));
-	}
+	// generateCells(data) {
+	// 	var { setData, cellClass, onClick, onMouseOver, onMouseOut} = this.props;
+	// 	return data.map((col, i) => col.map((cell, j) => {
+	// 		var curData = setData(cell, i, j) // Using i and j to denote col and row respectively
+	// 		var style = this.getCellStyle(curData);
+	// 		return (<Cell 
+	// 			key={`col${i}row${j}`} 
+	// 			className={cellClass}
+	// 			data={curData}
+	// 			style={style}
+	// 			onClick={onClick}
+	// 			onMouseOver={onMouseOver}
+	// 			onMouseOut={onMouseOut} />);
+	// 	}));
+	// }
 
 	render() {
-		var { columnClass, matrixClass, data, random } = this.props;
+		var { columnClass, matrixClass, data, random, cells } = this.props;
 		// If data exists, use it. Otherwise, use our random prop. 
-		var cells = this.generateCells((data || randomData(random[0], random[1])));
+		var cells = cells || generateCells((data || randomData(random[0], random[1])), this.props);
 		return (
 			<div className={matrixClass} style={matrixStyle}>
 				{cells.map((col, i) => <Column key={`col${i}`} className={columnClass} cells={col} />)}
@@ -45,6 +45,7 @@ export default class Matrix extends Component {
 
 Matrix.propTypes = {
 	data: PropTypes.array, // A 2d array of values or objects
+	cells: PropTypes.array, // A 2d array of Cell components
 	setData: PropTypes.func, // A function that determines what the cell's value will be
 	setStyle: PropTypes.func, // A function that determines the cell's style
 	setHoverStyle: PropTypes.func, // A function that determines the cell's style

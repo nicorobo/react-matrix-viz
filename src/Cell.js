@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { cellStyle } from './Styles.js';
+import { extend } from 'lodash';
 import Radium from 'radium';
 
 class Cell extends Component {
@@ -20,13 +22,21 @@ class Cell extends Component {
 		if (!onMouseOut) return false;
 		return () => onMouseOut(data);
 	}
+
+	getStyle() {
+		var { setStyle, setHoverStyle, data } = this.props;
+		var style = extend({}, cellStyle);
+		if(setStyle) style = extend(style, setStyle(data));
+		if(setHoverStyle) style = extend(style, {':hover': setHoverStyle(data)});
+		return style;
+	}
 	
 	render() {
-		var {data, style, className} = this.props;
+		var {data, className} = this.props;
 		return (
 			<div
 				className={className}
-				style={style}
+				style={this.getStyle()}
 				onClick={this.getClickHandler(data)}
 				onMouseOver={this.getMouseOverHandler(data)}
 				onMouseOut={this.getMouseOutHandler(data)}>
@@ -37,7 +47,8 @@ class Cell extends Component {
 
 Cell.propTypes = {
 	data: PropTypes.object, // This cell's data
-	style: PropTypes.object, // This cell's style object
+	setStyle: PropTypes.func, // This cell's style object
+	setHoverStyle: PropTypes.func, // This cell's style object
 	onClick: PropTypes.func, // This cell's click handler
 	onMouseOver: PropTypes.func, // This cell's mouseover handler
 	onMouseOut: PropTypes.func, // This cell's mouseout handler

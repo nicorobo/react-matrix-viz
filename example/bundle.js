@@ -20339,7 +20339,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		Object.defineProperty(exports, "__esModule", {
 		  value: true
 		});
-		exports.Cell = exports.Matrix = undefined;
+		exports.Util = exports.Cell = exports.Matrix = undefined;
 
 		var _Matrix = __webpack_require__(1);
 
@@ -20349,11 +20349,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _Cell2 = _interopRequireDefault(_Cell);
 
+		var _Util = __webpack_require__(5);
+
+		var _Util2 = _interopRequireDefault(_Util);
+
 		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 		exports.default = _Matrix2.default;
 		exports.Matrix = _Matrix2.default;
 		exports.Cell = _Cell2.default;
+		exports.Util = _Util2.default;
 
 	/***/ },
 	/* 1 */
@@ -20403,55 +20408,43 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 
 			_createClass(Matrix, [{
-				key: 'getCellStyle',
-				value: function getCellStyle(data) {
-					var _props = this.props;
-					var setStyle = _props.setStyle;
-					var setHoverStyle = _props.setHoverStyle;
-
-					var style = (0, _lodash.extend)({}, _Styles.cellStyle);
-					if (setStyle) style = (0, _lodash.extend)(style, setStyle(data));
-					if (setHoverStyle) style = (0, _lodash.extend)(style, { ':hover': setHoverStyle(data) });
-					return style;
-				}
-			}, {
-				key: 'generateCells',
-				value: function generateCells(data) {
-					var _this2 = this;
-
-					var _props2 = this.props;
-					var setData = _props2.setData;
-					var cellClass = _props2.cellClass;
-					var onClick = _props2.onClick;
-					var onMouseOver = _props2.onMouseOver;
-					var onMouseOut = _props2.onMouseOut;
-
-					return data.map(function (col, i) {
-						return col.map(function (cell, j) {
-							var curData = setData(cell, i, j); // Using i and j to denote col and row respectively
-							var style = _this2.getCellStyle(curData);
-							return _react2.default.createElement(_Cell2.default, {
-								key: 'col' + i + 'row' + j,
-								className: cellClass,
-								data: curData,
-								style: style,
-								onClick: onClick,
-								onMouseOver: onMouseOver,
-								onMouseOut: onMouseOut });
-						});
-					});
-				}
-			}, {
 				key: 'render',
+
+
+				// getCellStyle(data) {
+				// 	var { setStyle, setHoverStyle } = this.props;
+				// 	var style = extend({}, cellStyle);
+				// 	if(setStyle) style = extend(style, setStyle(data));
+				// 	if(setHoverStyle) style = extend(style, {':hover': setHoverStyle(data)});
+				// 	return style;
+				// }
+
+				// generateCells(data) {
+				// 	var { setData, cellClass, onClick, onMouseOver, onMouseOut} = this.props;
+				// 	return data.map((col, i) => col.map((cell, j) => {
+				// 		var curData = setData(cell, i, j) // Using i and j to denote col and row respectively
+				// 		var style = this.getCellStyle(curData);
+				// 		return (<Cell
+				// 			key={`col${i}row${j}`}
+				// 			className={cellClass}
+				// 			data={curData}
+				// 			style={style}
+				// 			onClick={onClick}
+				// 			onMouseOver={onMouseOver}
+				// 			onMouseOut={onMouseOut} />);
+				// 	}));
+				// }
+
 				value: function render() {
-					var _props3 = this.props;
-					var columnClass = _props3.columnClass;
-					var matrixClass = _props3.matrixClass;
-					var data = _props3.data;
-					var random = _props3.random;
+					var _props = this.props;
+					var columnClass = _props.columnClass;
+					var matrixClass = _props.matrixClass;
+					var data = _props.data;
+					var random = _props.random;
+					var cells = _props.cells;
 					// If data exists, use it. Otherwise, use our random prop.
 
-					var cells = this.generateCells(data || (0, _Util.randomData)(random[0], random[1]));
+					var cells = cells || (0, _Util.generateCells)(data || (0, _Util.randomData)(random[0], random[1]), this.props);
 					return _react2.default.createElement(
 						'div',
 						{ className: matrixClass, style: _Styles.matrixStyle },
@@ -20470,6 +20463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		Matrix.propTypes = {
 			data: _react.PropTypes.array, // A 2d array of values or objects
+			cells: _react.PropTypes.array, // A 2d array of Cell components
 			setData: _react.PropTypes.func, // A function that determines what the cell's value will be
 			setStyle: _react.PropTypes.func, // A function that determines the cell's style
 			setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
@@ -20530,14 +20524,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/***/ },
 	/* 5 */
-	/***/ function(module, exports) {
+	/***/ function(module, exports, __webpack_require__) {
 
-		"use strict";
+		'use strict';
 
 		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
 		exports.randomData = randomData;
+		exports.generateCells = generateCells;
+
+		var _react = __webpack_require__(2);
+
+		var _react2 = _interopRequireDefault(_react);
+
+		var _Cell = __webpack_require__(7);
+
+		var _Cell2 = _interopRequireDefault(_Cell);
+
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 		function randomData(col, row) {
 			var data = [];
 			for (var i = 0; i < col; i++) {
@@ -20549,6 +20555,33 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			return data;
 		}
+
+		function generateCells(data, config) {
+			var setData = config.setData;
+			var cellClass = config.cellClass;
+			var onClick = config.onClick;
+			var onMouseOver = config.onMouseOver;
+			var onMouseOut = config.onMouseOut;
+			var setStyle = config.setStyle;
+			var setHoverStyle = config.setHoverStyle;
+
+			return data.map(function (col, i) {
+				return col.map(function (cell, j) {
+					var curData = setData(cell, i, j); // Using i and j to denote col and row respectively
+					return _react2.default.createElement(_Cell2.default, {
+						key: 'col' + i + 'row' + j,
+						className: cellClass,
+						data: curData,
+						setStyle: setStyle,
+						setHoverStyle: setHoverStyle,
+						onClick: onClick,
+						onMouseOver: onMouseOver,
+						onMouseOut: onMouseOut });
+				});
+			});
+		}
+
+		exports.default = { randomData: randomData, generateCells: generateCells };
 
 	/***/ },
 	/* 6 */
@@ -20622,6 +20655,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		var _react2 = _interopRequireDefault(_react);
 
+		var _Styles = __webpack_require__(4);
+
+		var _lodash = __webpack_require__(3);
+
 		var _radium = __webpack_require__(8);
 
 		var _radium2 = _interopRequireDefault(_radium);
@@ -20674,16 +20711,28 @@ return /******/ (function(modules) { // webpackBootstrap
 					};
 				}
 			}, {
+				key: 'getStyle',
+				value: function getStyle() {
+					var _props = this.props;
+					var setStyle = _props.setStyle;
+					var setHoverStyle = _props.setHoverStyle;
+					var data = _props.data;
+
+					var style = (0, _lodash.extend)({}, _Styles.cellStyle);
+					if (setStyle) style = (0, _lodash.extend)(style, setStyle(data));
+					if (setHoverStyle) style = (0, _lodash.extend)(style, { ':hover': setHoverStyle(data) });
+					return style;
+				}
+			}, {
 				key: 'render',
 				value: function render() {
-					var _props = this.props;
-					var data = _props.data;
-					var style = _props.style;
-					var className = _props.className;
+					var _props2 = this.props;
+					var data = _props2.data;
+					var className = _props2.className;
 
 					return _react2.default.createElement('div', {
 						className: className,
-						style: style,
+						style: this.getStyle(),
 						onClick: this.getClickHandler(data),
 						onMouseOver: this.getMouseOverHandler(data),
 						onMouseOut: this.getMouseOutHandler(data) });
@@ -20695,7 +20744,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		Cell.propTypes = {
 			data: _react.PropTypes.object, // This cell's data
-			style: _react.PropTypes.object, // This cell's style object
+			setStyle: _react.PropTypes.func, // This cell's style object
+			setHoverStyle: _react.PropTypes.func, // This cell's style object
 			onClick: _react.PropTypes.func, // This cell's click handler
 			onMouseOver: _react.PropTypes.func, // This cell's mouseover handler
 			onMouseOut: _react.PropTypes.func, // This cell's mouseout handler
@@ -37091,6 +37141,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -37098,8 +37150,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react2 = _interopRequireDefault(_react);
 
 	var _reactMatrixViz = __webpack_require__(169);
-
-	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37109,6 +37159,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var data = _reactMatrixViz.Util.randomData(10, 10);
+	var cells = null;
+
 	function setData(data, col, row) {
 		return {
 			val: data.val,
@@ -37117,27 +37170,29 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	}
 
-	var ExampleOne = function (_Component) {
-		_inherits(ExampleOne, _Component);
+	var ExampleThree = function (_Component) {
+		_inherits(ExampleThree, _Component);
 
-		function ExampleOne(props) {
-			_classCallCheck(this, ExampleOne);
+		function ExampleThree(props) {
+			_classCallCheck(this, ExampleThree);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ExampleOne).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ExampleThree).call(this, props));
 
 			_this.state = { row: null, col: null };
 			return _this;
 		}
 
-		_createClass(ExampleOne, [{
+		_createClass(ExampleThree, [{
 			key: 'setStyle',
 			value: function setStyle(data) {
+				console.log(data);
 				var _state = this.state;
 				var row = _state.row;
 				var col = _state.col;
 
 				return {
-					border: data.row === row || data.col === col ? '1px solid #666' : 'none'
+					border: data.row === row || data.col === col ? '1px solid #ccc' : 'none',
+					':hover': {}
 				};
 			}
 		}, {
@@ -37151,25 +37206,32 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.setState({ row: null, col: null });
 			}
 		}, {
+			key: 'getConfig',
+			value: function getConfig() {
+				return {
+					setData: setData,
+					onMouseOver: this.onMouseOver.bind(this),
+					onMouseOut: this.onMouseOut.bind(this),
+					setStyle: this.setStyle.bind(this)
+				};
+			}
+		}, {
 			key: 'render',
 			value: function render() {
+				var config = this.getConfig();
+				if (!cells) cells = _reactMatrixViz.Util.generateCells(data, config);
 				return _react2.default.createElement(
 					'div',
 					{ className: 'example example-one' },
-					_react2.default.createElement(_reactMatrixViz2.default, {
-						random: [10, 10],
-						setData: setData,
-						onMouseOver: this.onMouseOver.bind(this),
-						onMouseOut: this.onMouseOut.bind(this),
-						setStyle: this.setStyle.bind(this) })
+					_react2.default.createElement(_reactMatrixViz.Matrix, _extends({ cells: cells }, config))
 				);
 			}
 		}]);
 
-		return ExampleOne;
+		return ExampleThree;
 	}(_react.Component);
 
-	exports.default = ExampleOne;
+	exports.default = ExampleThree;
 
 /***/ },
 /* 174 */
@@ -37188,8 +37250,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react2 = _interopRequireDefault(_react);
 
 	var _reactMatrixViz = __webpack_require__(169);
-
-	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37237,6 +37297,17 @@ return /******/ (function(modules) { // webpackBootstrap
 				};
 			}
 		}, {
+			key: 'getConfig',
+			value: function getConfig() {
+				return {
+					setData: setData,
+					random: [10, 10],
+					onClick: this.onClick.bind(this),
+					setHoverStyle: this.setHoverStyle.bind(this),
+					setStyle: this.setStyle.bind(this)
+				};
+			}
+		}, {
 			key: 'setStyle',
 			value: function setStyle(data) {
 				var _state = this.state;
@@ -37262,21 +37333,18 @@ return /******/ (function(modules) { // webpackBootstrap
 				var interval = window.setInterval(function () {
 					_this2.setState({ step: _this2.state.step + 1 });
 					if (_this2.state.step > 10) window.clearInterval(interval);
-				}, 300);
+				}, 200);
 				this.setState({ interval: interval });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+
+				var config = this.getConfig();
 				return _react2.default.createElement(
 					'div',
 					{ className: 'example example-one' },
-					_react2.default.createElement(_reactMatrixViz2.default, {
-						random: [10, 10],
-						setData: setData,
-						onClick: this.onClick.bind(this),
-						setHoverStyle: this.setHoverStyle.bind(this),
-						setStyle: this.setStyle.bind(this) })
+					_react2.default.createElement(_reactMatrixViz.Matrix, config)
 				);
 			}
 		}]);
