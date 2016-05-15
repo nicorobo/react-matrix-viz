@@ -140,7 +140,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var _this2 = this;
 
 				var _props2 = this.props;
-				var cellData = _props2.cellData;
+				var setData = _props2.setData;
 				var cellClass = _props2.cellClass;
 				var onClick = _props2.onClick;
 				var onMouseOver = _props2.onMouseOver;
@@ -148,7 +148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				return data.map(function (col, i) {
 					return col.map(function (cell, j) {
-						var curData = cellData(cell, i, j); // Using i and j to denote col and row respectively
+						var curData = setData(cell, i, j); // Using i and j to denote col and row respectively
 						var style = _this2.getCellStyle(curData);
 						return _react2.default.createElement(_Cell2.default, {
 							key: 'col' + i + 'row' + j,
@@ -190,7 +190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Matrix.propTypes = {
 		data: _react.PropTypes.array, // A 2d array of values or objects
-		cellData: _react.PropTypes.func, // A function that determines what the cell's value will be
+		setData: _react.PropTypes.func, // A function that determines what the cell's value will be
 		setStyle: _react.PropTypes.func, // A function that determines the cell's style
 		setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
 		onClick: _react.PropTypes.func, // An event handler, triggered when cell is clicked
@@ -203,7 +203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	Matrix.defaultProps = {
-		cellData: function cellData(cell, col, row) {
+		setData: function setData(cell, col, row) {
 			return cell;
 		}, // Returns the value at data[col][row]
 		cellClass: 'rm-cell', // Default cell class name to 'rm-cell'

@@ -16,9 +16,9 @@ export default class Matrix extends Component {
 	}
 
 	generateCells(data) {
-		var { cellData, cellClass, onClick, onMouseOver, onMouseOut} = this.props;
+		var { setData, cellClass, onClick, onMouseOver, onMouseOut} = this.props;
 		return data.map((col, i) => col.map((cell, j) => {
-			var curData = cellData(cell, i, j) // Using i and j to denote col and row respectively
+			var curData = setData(cell, i, j) // Using i and j to denote col and row respectively
 			var style = this.getCellStyle(curData);
 			return (<Cell 
 				key={`col${i}row${j}`} 
@@ -45,7 +45,7 @@ export default class Matrix extends Component {
 
 Matrix.propTypes = {
 	data: PropTypes.array, // A 2d array of values or objects
-	cellData: PropTypes.func, // A function that determines what the cell's value will be
+	setData: PropTypes.func, // A function that determines what the cell's value will be
 	setStyle: PropTypes.func, // A function that determines the cell's style
 	setHoverStyle: PropTypes.func, // A function that determines the cell's style
 	onClick: PropTypes.func, // An event handler, triggered when cell is clicked
@@ -58,7 +58,7 @@ Matrix.propTypes = {
 };
 
 Matrix.defaultProps = {
-	cellData: (cell, col, row) => cell, // Returns the value at data[col][row]
+	setData: (cell, col, row) => cell, // Returns the value at data[col][row]
 	cellClass: 'rm-cell', // Default cell class name to 'rm-cell'
 	columnClass: 'rm-column', // Default column class name to 'rm-column'
 	matrixClass: 'rm-matrix', // Default matrix class name to 'rm-matrix'

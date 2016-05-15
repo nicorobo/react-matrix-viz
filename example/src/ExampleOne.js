@@ -4,7 +4,7 @@ import Matrix from '../../dist/react-matrix-viz.js';
 function getStyle(data) {
 	return {
 		backgroundColor: 'rgba(200, 150, 200, '+data.val/100+')',
-		border: data.val > 10 ? 'none' : '1px solid #ddd',
+		border: data.val > 10 ? 'none' : '1px solid #ddd'
 	}
 }
 

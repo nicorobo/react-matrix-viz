@@ -68,13 +68,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom = __webpack_require__(33);
 
-	var _ExampleOne = __webpack_require__(172);
+	var _ExampleOne = __webpack_require__(168);
 
 	var _ExampleOne2 = _interopRequireDefault(_ExampleOne);
 
-	var _ExampleTwo = __webpack_require__(173);
+	var _ExampleTwo = __webpack_require__(172);
 
 	var _ExampleTwo2 = _interopRequireDefault(_ExampleTwo);
+
+	var _ExampleThree = __webpack_require__(173);
+
+	var _ExampleThree2 = _interopRequireDefault(_ExampleThree);
+
+	var _ExampleFour = __webpack_require__(174);
+
+	var _ExampleFour2 = _interopRequireDefault(_ExampleFour);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -100,7 +108,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					'div',
 					{ className: 'examples' },
 					_react2.default.createElement(_ExampleOne2.default, null),
-					_react2.default.createElement(_ExampleTwo2.default, null)
+					_react2.default.createElement(_ExampleTwo2.default, null),
+					_react2.default.createElement(_ExampleThree2.default, null),
+					_react2.default.createElement(_ExampleFour2.default, null)
 				);
 			}
 		}]);
@@ -20208,9 +20218,69 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMatrixViz = __webpack_require__(169);
+
+	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function getStyle(data) {
+		return {
+			backgroundColor: 'rgba(200, 150, 200, ' + data.val / 100 + ')',
+			border: data.val > 10 ? 'none' : '1px solid #ddd'
+		};
+	}
+
+	var ExampleOne = function (_Component) {
+		_inherits(ExampleOne, _Component);
+
+		function ExampleOne() {
+			_classCallCheck(this, ExampleOne);
+
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(ExampleOne).apply(this, arguments));
+		}
+
+		_createClass(ExampleOne, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'example example-one' },
+					_react2.default.createElement(_reactMatrixViz2.default, { random: [10, 10], setStyle: getStyle })
+				);
+			}
+		}]);
+
+		return ExampleOne;
+	}(_react.Component);
+
+	exports.default = ExampleOne;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
-			module.exports = factory(__webpack_require__(1), __webpack_require__(169));
+			module.exports = factory(__webpack_require__(1), __webpack_require__(170));
 		else if(typeof define === 'function' && define.amd)
 			define(["react", "_"], factory);
 		else {
@@ -20350,7 +20420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					var _this2 = this;
 
 					var _props2 = this.props;
-					var cellData = _props2.cellData;
+					var setData = _props2.setData;
 					var cellClass = _props2.cellClass;
 					var onClick = _props2.onClick;
 					var onMouseOver = _props2.onMouseOver;
@@ -20358,7 +20428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 					return data.map(function (col, i) {
 						return col.map(function (cell, j) {
-							var curData = cellData(cell, i, j); // Using i and j to denote col and row respectively
+							var curData = setData(cell, i, j); // Using i and j to denote col and row respectively
 							var style = _this2.getCellStyle(curData);
 							return _react2.default.createElement(_Cell2.default, {
 								key: 'col' + i + 'row' + j,
@@ -20400,7 +20470,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 		Matrix.propTypes = {
 			data: _react.PropTypes.array, // A 2d array of values or objects
-			cellData: _react.PropTypes.func, // A function that determines what the cell's value will be
+			setData: _react.PropTypes.func, // A function that determines what the cell's value will be
 			setStyle: _react.PropTypes.func, // A function that determines the cell's style
 			setHoverStyle: _react.PropTypes.func, // A function that determines the cell's style
 			onClick: _react.PropTypes.func, // An event handler, triggered when cell is clicked
@@ -20413,7 +20483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		Matrix.defaultProps = {
-			cellData: function cellData(cell, col, row) {
+			setData: function setData(cell, col, row) {
 				return cell;
 			}, // Returns the value at data[col][row]
 			cellClass: 'rm-cell', // Default cell class name to 'rm-cell'
@@ -24579,7 +24649,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -36934,10 +37004,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(170)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(171)(module), (function() { return this; }())))
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -36953,7 +37023,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 171 */,
 /* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36969,67 +37038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactMatrixViz = __webpack_require__(168);
-
-	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	function getStyle(data) {
-		return {
-			backgroundColor: 'rgba(200, 150, 200, ' + data.val / 100 + ')',
-			border: data.val > 10 ? 'none' : '1px solid #ddd'
-		};
-	}
-
-	var ExampleOne = function (_Component) {
-		_inherits(ExampleOne, _Component);
-
-		function ExampleOne() {
-			_classCallCheck(this, ExampleOne);
-
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(ExampleOne).apply(this, arguments));
-		}
-
-		_createClass(ExampleOne, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'example example-one' },
-					_react2.default.createElement(_reactMatrixViz2.default, { random: [10, 10], setStyle: getStyle })
-				);
-			}
-		}]);
-
-		return ExampleOne;
-	}(_react.Component);
-
-	exports.default = ExampleOne;
-
-/***/ },
-/* 173 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMatrixViz = __webpack_require__(168);
+	var _reactMatrixViz = __webpack_require__(169);
 
 	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
 
@@ -37063,6 +37072,211 @@ return /******/ (function(modules) { // webpackBootstrap
 					'div',
 					{ className: 'example example-one' },
 					_react2.default.createElement(_reactMatrixViz2.default, { random: [10, 10], setHoverStyle: getHoverStyle })
+				);
+			}
+		}]);
+
+		return ExampleOne;
+	}(_react.Component);
+
+	exports.default = ExampleOne;
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMatrixViz = __webpack_require__(169);
+
+	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function setData(data, col, row) {
+		return {
+			val: data.val,
+			col: col,
+			row: row
+		};
+	}
+
+	var ExampleOne = function (_Component) {
+		_inherits(ExampleOne, _Component);
+
+		function ExampleOne(props) {
+			_classCallCheck(this, ExampleOne);
+
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ExampleOne).call(this, props));
+
+			_this.state = { row: null, col: null };
+			return _this;
+		}
+
+		_createClass(ExampleOne, [{
+			key: 'setStyle',
+			value: function setStyle(data) {
+				var _state = this.state;
+				var row = _state.row;
+				var col = _state.col;
+
+				return {
+					border: data.row === row || data.col === col ? '1px solid #666' : 'none'
+				};
+			}
+		}, {
+			key: 'onMouseOver',
+			value: function onMouseOver(data) {
+				this.setState({ row: data.row, col: data.col });
+			}
+		}, {
+			key: 'onMouseOut',
+			value: function onMouseOut(data) {
+				this.setState({ row: null, col: null });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'example example-one' },
+					_react2.default.createElement(_reactMatrixViz2.default, {
+						random: [10, 10],
+						setData: setData,
+						onMouseOver: this.onMouseOver.bind(this),
+						onMouseOut: this.onMouseOut.bind(this),
+						setStyle: this.setStyle.bind(this) })
+				);
+			}
+		}]);
+
+		return ExampleOne;
+	}(_react.Component);
+
+	exports.default = ExampleOne;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMatrixViz = __webpack_require__(169);
+
+	var _reactMatrixViz2 = _interopRequireDefault(_reactMatrixViz);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function setData(data, col, row) {
+		return {
+			val: data.val,
+			col: col,
+			row: row
+		};
+	}
+
+	function checkFrontier(col, row, center, steps) {
+		var dColBack = center[0] - steps;
+		var dColFor = center[0] + steps;
+		var dRowBack = center[1] - steps;
+		var dRowFor = center[1] + steps;
+		if ((col === dColBack || col === dColFor) && row <= dRowFor && row >= dRowBack) return true;
+		if ((row === dRowBack || row === dRowFor) && col <= dColFor && col >= dColBack) return true;
+		return false;
+	}
+
+	var ExampleOne = function (_Component) {
+		_inherits(ExampleOne, _Component);
+
+		function ExampleOne(props) {
+			_classCallCheck(this, ExampleOne);
+
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ExampleOne).call(this, props));
+
+			_this.state = { center: [], step: 1, interval: null };
+			return _this;
+		}
+
+		_createClass(ExampleOne, [{
+			key: 'setHoverStyle',
+			value: function setHoverStyle(data) {
+				return {
+					cursor: 'pointer'
+				};
+			}
+		}, {
+			key: 'setStyle',
+			value: function setStyle(data) {
+				var _state = this.state;
+				var center = _state.center;
+				var step = _state.step;
+
+				var inFrontier = checkFrontier(data.col, data.row, center, step);
+				return {
+					backgroundColor: inFrontier ? 'lightblue' : '#eee'
+				};
+			}
+		}, {
+			key: 'onClick',
+			value: function onClick(data) {
+				var _this2 = this;
+
+				var _state2 = this.state;
+				var step = _state2.step;
+				var interval = _state2.interval;
+
+				if (interval) window.clearInterval(interval);
+				this.setState({ center: [data.col, data.row], step: 0 });
+				var interval = window.setInterval(function () {
+					_this2.setState({ step: _this2.state.step + 1 });
+					if (_this2.state.step > 10) window.clearInterval(interval);
+				}, 300);
+				this.setState({ interval: interval });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'example example-one' },
+					_react2.default.createElement(_reactMatrixViz2.default, {
+						random: [10, 10],
+						setData: setData,
+						onClick: this.onClick.bind(this),
+						setHoverStyle: this.setHoverStyle.bind(this),
+						setStyle: this.setStyle.bind(this) })
 				);
 			}
 		}]);
