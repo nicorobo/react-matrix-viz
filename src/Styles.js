@@ -4,7 +4,6 @@ export var cellStyle = {
 	margin: 1,
 	backgroundColor: '#eee',
 	boxSizing: 'border-box',
-	cursor: 'pointer'
 };
 
 export var columnStyle = {

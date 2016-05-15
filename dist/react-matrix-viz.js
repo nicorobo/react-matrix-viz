@@ -236,8 +236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		width: 20,
 		margin: 1,
 		backgroundColor: '#eee',
-		boxSizing: 'border-box',
-		cursor: 'pointer'
+		boxSizing: 'border-box'
 	};
 
 	var columnStyle = exports.columnStyle = {
