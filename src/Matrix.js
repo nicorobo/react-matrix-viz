@@ -11,7 +11,7 @@ export default class Matrix extends Component {
 		var { setStyle, setHoverStyle } = this.props;
 		var style = extend({}, cellStyle);
 		if(setStyle) style = extend(style, setStyle(data));
-		if(setHoverStyle) style = extend(style, setHoverStyle(data));
+		if(setHoverStyle) style = extend(style, {':hover': setHoverStyle(data)});
 		return style;
 	}
 
